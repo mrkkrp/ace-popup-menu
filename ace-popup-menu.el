@@ -5,7 +5,7 @@
 ;; Author: Mark Karpov <markkarpov@openmailbox.org>
 ;; URL: https://github.com/ace-popup-menu
 ;; Version: 0.1.0
-;; Package-Requires: ((emacs "24.4") (any "0.2.0))
+;; Package-Requires: ((emacs "24.4") (avy "0.2.0))
 ;; Keywords: convenience, popup, menu
 ;;
 ;; This file is not part of GNU Emacs.
@@ -33,7 +33,7 @@
 
 ;;; Code:
 
-(require 'any)
+(require 'avy)
 
 ;; write something here, so it works
 

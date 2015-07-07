@@ -45,13 +45,38 @@ of MENU argument see description of `x-popup-menu'.
 Every selectable item in the menu is labeled with a letter (or
 two).  User can press letter corresponding to desired menu item
 and he is done."
-  (message "saw menu: %s" menu) ;; for investigation…
-  (let ((result (prog2
-                    (advice-remove 'x-popup-menu #'ace-popup-menu)
-                    (x-popup-menu position menu)
-                  (advice-add 'x-popup-menu :override #'ace-popup-menu))))
-    (message "saw result: %s" result)
-    result))
+  (let (menu-item-alist)
+    (with-displayed-buffer-window
+     ;; buffer or name
+     "*Ace Popup Menu*"
+     ;; action (for `display-buffer')
+     (cons 'display-buffer-below-selected
+           '((window-height . fit-window-to-buffer)
+             (preserve-size . (nil . t))))
+     ;; quit-function
+     (lambda (window _value)
+       (with-selected-window window
+         (unwind-protect
+             (list
+              (cdr
+               (assq
+                (avy--with-avy-keys ace-popup-menu
+                  (avy--process (mapcar #'car menu-item-alist)
+                                #'avy--overlay-pre))
+                menu-item-alist)))
+           (when (window-live-p window)
+             (quit-restore-window window 'kill)))))
+     ;; body
+     ;; 1. Generate the temporary window displaying menu items
+     ;; TODO: generate contents normally here
+     (print (format "stuff: %s" menu))
+     ;; 2. Generate contents of `menu-item-alist' (see `x-popup-menu')
+     ;; TODO: this can be merged with 1, for now use this fake alist
+     (setq menu-item-alist
+           '((2  . "rere")
+             (8  . "keke")
+             (16 . "bebe")
+             (32 . "roro"))))))
 
 ;;;###autoload
 (define-minor-mode ace-popup-menu-mode

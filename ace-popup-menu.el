@@ -50,18 +50,10 @@ Return alist of values (POS . VALUE), where POS indicates
 position of STRING in the buffer and VALUE is its associated
 value according to ITEMS."
   (when (consp items)
-    (let* ((strings (mapcar (lambda (x)
-                              (if (consp x)
-                                  (car x)
-                                x))
+    (let* ((strings (mapcar (lambda (x) (if (consp x) (car x) x))
                             items))
            (length (apply 'max
-                          (mapcar (lambda (s)
-                                    (if (consp s)
-                                        (+ (string-width (car s))
-                                           (string-width (cadr s)))
-                                      (string-width s)))
-                                  strings)))
+                          (mapcar #'string-width strings)))
            (window (get-buffer-window (current-buffer) 0))
            (wwidth (if window (1- (window-width window)) 79))
            (columns (min (max 2 (/ wwidth (+ 2 length)))
@@ -76,50 +68,23 @@ value according to ITEMS."
       (dolist (str strings)
         (unless (equal laststring str)
           (setq laststring str)
-          (let ((length (if (consp str)
-                            (+ (string-width (car str))
-                               (string-width (cadr str)))
-                          (string-width str))))
-            (cond
-             ((eq completions-format 'vertical)
-              (when (> row rows)
-                (forward-line (- -1 rows))
-                (setq row 0 column (+ column colwidth)))
-              (when (> column 0)
-                (end-of-line)
-                (while (> (current-column) column)
-                  (if (eobp)
-                      (insert "\n")
-                    (forward-line 1)
-                    (end-of-line)))
-                (insert " \t")
+          (let ((length (string-width str))
+                (value  (cdr (assq str items))))
+            (unless first
+              (if (or (< wwidth (+ (max colwidth length) column))
+                      (zerop length))
+                  (progn
+                    (insert "\n" (if (zerop length) "\n" ""))
+                    (setq column 0))
+                (insert "·\t")
                 (set-text-properties (1- (point)) (point)
                                      `(display (space :align-to ,column)))))
-             (t
-              (unless first
-                (if (< wwidth (+ (max colwidth length) column))
-                    (progn (insert "\n") (setq column 0))
-                  (insert " \t")
-                  (set-text-properties (1- (point)) (point)
-                                       `(display (space :align-to ,column)))
-                  nil))))
-            (setq first nil)
-            (if (plusp (length str))
-                (let ((value (assq str items)))
-                  (when value
-                    (push (cons (point) value) result))
-                  (insert (if value str (propertize str 'face 'shadow))))
-              (insert "\n\n")  ;; this needs more attention
-              (setq column 0)) ;; ^
-            (cond
-             ((eq completions-format 'vertical)
-              (if (> column 0)
-                  (forward-line)
-                (insert "\n"))
-              (setq row (1+ row)))
-             (t
-              (setq column (+ column
-                              (* colwidth (ceiling length colwidth)))))))))
+            (setq first (zerop length))
+            (when value
+              (push (cons (point) value) result))
+            (insert (if value str (propertize str 'face 'shadow)))
+            (setq column (+ column
+                            (* colwidth (ceiling length colwidth)))))))
       result)))
 
 ;;;###autoload

@@ -76,7 +76,7 @@ value according to ITEMS."
                   (progn
                     (insert "\n" (if (zerop length) "\n" ""))
                     (setq column 0))
-                (insert "·\t")
+                (insert " \t")
                 (set-text-properties (1- (point)) (point)
                                      `(display (space :align-to ,column)))))
             (setq first (zerop length))
@@ -99,7 +99,8 @@ two).  User can press letter corresponding to desired menu item
 and he is done."
   (when position
     (let ((buffer (get-buffer-create "*Ace Popup Menu*"))
-          menu-item-alist)
+          menu-item-alist
+          (first-pane t))
       (with-displayed-buffer-window
        ;; buffer or name
        buffer
@@ -111,13 +112,12 @@ and he is done."
        (lambda (window _value)
          (with-selected-window window
            (unwind-protect
-               (list
-                (cdr
-                 (assq
-                  (avy--with-avy-keys ace-popup-menu
-                    (avy--process (mapcar #'car menu-item-alist)
-                                  #'avy--overlay-pre))
-                  menu-item-alist)))
+               (cdr
+                (assq
+                 (avy--with-avy-keys ace-popup-menu
+                   (avy--process (mapcar #'car menu-item-alist)
+                                 #'avy--overlay-pre))
+                 menu-item-alist))
              (when (window-live-p window)
                (quit-restore-window window 'kill)))))
        ;; Here we generate the menu. Currently MENU cannot be a keymap or
@@ -129,10 +129,14 @@ and he is done."
                    "\n\n")
            (dolist (pane panes)
              (cl-destructuring-bind (title . items) pane
+               (if first-pane
+                   (setq first-pane nil)
+                 (insert "\n\n"))
                (insert (propertize title 'face 'underline)
                        "\n\n")
                (setq menu-item-alist
-                     (ace-popup-menu--insert-strings items))))))))))
+                     (append (ace-popup-menu--insert-strings items)
+                             menu-item-alist))))))))))
 
 ;;;###autoload
 (define-minor-mode ace-popup-menu-mode

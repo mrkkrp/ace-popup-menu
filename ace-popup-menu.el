@@ -5,7 +5,7 @@
 ;; Author: Mark Karpov <markkarpov@openmailbox.org>
 ;; URL: https://github.com/ace-popup-menu
 ;; Version: 0.1.0
-;; Package-Requires: ((emacs "24.4") (avy "0.2.0"))
+;; Package-Requires: ((emacs "24.4") (cl-lib "0.5") (avy "0.2.0"))
 ;; Keywords: convenience, popup, menu
 ;;
 ;; This file is not part of GNU Emacs.
@@ -31,9 +31,96 @@
 ;; displayed and labeled with one or two letters. You press a key
 ;; corresponding to desired choice (or C-g) and you are done.
 
-;;; Code: rere
+;;; Code:
 
 (require 'avy)
+(require 'cl-lib)
+
+(defun ace-popup-menu--insert-strings (items)
+  "Insert ITEMS much like `completion--insert-strings' in current buffer.
+
+ITEMS should be a list, where every element is a cons of
+form (STRING . VALUE), where STRING is the string to be printed
+in current buffer and VALUE is used to construct result value of
+this function.  ITEMS can contain plain strings, in this case
+they are printed with shadow face.  Empty strings are not
+printed, instead they begin new sub-section.
+
+Return alist of values (POS . VALUE), where POS indicates
+position of STRING in the buffer and VALUE is its associated
+value according to ITEMS."
+  (when (consp items)
+    (let* ((strings (mapcar (lambda (x)
+                              (if (consp x)
+                                  (car x)
+                                x))
+                            items))
+           (length (apply 'max
+                          (mapcar (lambda (s)
+                                    (if (consp s)
+                                        (+ (string-width (car s))
+                                           (string-width (cadr s)))
+                                      (string-width s)))
+                                  strings)))
+           (window (get-buffer-window (current-buffer) 0))
+           (wwidth (if window (1- (window-width window)) 79))
+           (columns (min (max 2 (/ wwidth (+ 2 length)))
+                         (max 1 (/ (length strings) 2))))
+           (colwidth (/ wwidth columns))
+           (column 0)
+           (rows (/ (length strings) columns))
+           (row 0)
+           (first t)
+           laststring
+           result)
+      (dolist (str strings)
+        (unless (equal laststring str)
+          (setq laststring str)
+          (let ((length (if (consp str)
+                            (+ (string-width (car str))
+                               (string-width (cadr str)))
+                          (string-width str))))
+            (cond
+             ((eq completions-format 'vertical)
+              (when (> row rows)
+                (forward-line (- -1 rows))
+                (setq row 0 column (+ column colwidth)))
+              (when (> column 0)
+                (end-of-line)
+                (while (> (current-column) column)
+                  (if (eobp)
+                      (insert "\n")
+                    (forward-line 1)
+                    (end-of-line)))
+                (insert " \t")
+                (set-text-properties (1- (point)) (point)
+                                     `(display (space :align-to ,column)))))
+             (t
+              (unless first
+                (if (< wwidth (+ (max colwidth length) column))
+                    (progn (insert "\n") (setq column 0))
+                  (insert " \t")
+                  (set-text-properties (1- (point)) (point)
+                                       `(display (space :align-to ,column)))
+                  nil))))
+            (setq first nil)
+            (if (plusp (length str))
+                (let ((value (assq str items)))
+                  (when value
+                    (push (cons (point) value) result))
+                  (insert (if value str (propertize str 'face 'shadow))))
+              (insert "\n\n")  ;; this needs more attention
+              (setq column 0)) ;; ^
+            (cond
+             ((eq completions-format 'vertical)
+              (if (> column 0)
+                  (forward-line)
+                (insert "\n"))
+              (setq row (1+ row)))
+             (t
+              (setq column (+ column
+                              (* colwidth (ceiling length colwidth)))))))))
+      result)))
 
 ;;;###autoload
 (defun ace-popup-menu (position menu)
@@ -45,38 +132,42 @@ of MENU argument see description of `x-popup-menu'.
 Every selectable item in the menu is labeled with a letter (or
 two).  User can press letter corresponding to desired menu item
 and he is done."
-  (let (menu-item-alist)
-    (with-displayed-buffer-window
-     ;; buffer or name
-     "*Ace Popup Menu*"
-     ;; action (for `display-buffer')
-     (cons 'display-buffer-below-selected
-           '((window-height . fit-window-to-buffer)
-             (preserve-size . (nil . t))))
-     ;; quit-function
-     (lambda (window _value)
-       (with-selected-window window
-         (unwind-protect
-             (list
-              (cdr
-               (assq
-                (avy--with-avy-keys ace-popup-menu
-                  (avy--process (mapcar #'car menu-item-alist)
-                                #'avy--overlay-pre))
-                menu-item-alist)))
-           (when (window-live-p window)
-             (quit-restore-window window 'kill)))))
-     ;; body
-     ;; 1. Generate the temporary window displaying menu items
-     ;; TODO: generate contents normally here
-     (print (format "stuff: %s" menu))
-     ;; 2. Generate contents of `menu-item-alist' (see `x-popup-menu')
-     ;; TODO: this can be merged with 1, for now use this fake alist
-     (setq menu-item-alist
-           '((2  . "rere")
-             (8  . "keke")
-             (16 . "bebe")
-             (32 . "roro"))))))
+  (when position
+    (let ((buffer (get-buffer-create "*Ace Popup Menu*"))
+          menu-item-alist)
+      (with-displayed-buffer-window
+       ;; buffer or name
+       buffer
+       ;; action (for `display-buffer')
+       (cons 'display-buffer-below-selected
+             '((window-height . fit-window-to-buffer)
+               (preserve-size . (nil . t))))
+       ;; quit-function
+       (lambda (window _value)
+         (with-selected-window window
+           (unwind-protect
+               (list
+                (cdr
+                 (assq
+                  (avy--with-avy-keys ace-popup-menu
+                    (avy--process (mapcar #'car menu-item-alist)
+                                  #'avy--overlay-pre))
+                  menu-item-alist)))
+             (when (window-live-p window)
+               (quit-restore-window window 'kill)))))
+       ;; Here we generate the menu. Currently MENU cannot be a keymap or
+       ;; list of keymaps. Support for this representation of MENU will be
+       ;; added on request later.
+       (with-current-buffer buffer
+         (cl-destructuring-bind (title . panes) menu
+           (insert (propertize title 'face 'font-lock-function-name-face)
+                   "\n\n")
+           (dolist (pane panes)
+             (cl-destructuring-bind (title . items) pane
+               (insert (propertize title 'face 'underline)
+                       "\n\n")
+               (setq menu-item-alist
+                     (ace-popup-menu--insert-strings items))))))))))
 
 ;;;###autoload
 (define-minor-mode ace-popup-menu-mode

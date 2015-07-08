@@ -115,9 +115,10 @@ and he is done."
                (when ace-popup-menu-show-pane-header
                  (insert (propertize title 'face 'underline)
                          "\n\n"))
-               (setq menu-item-alist
-                     (append (ace-popup-menu--insert-strings items)
-                             menu-item-alist))))))))))
+               (let ((pane-alist (ace-popup-menu--insert-strings items)))
+                 (if menu-item-alist
+                     (nconc menu-item-alist pane-alist)
+                   (setq menu-item-alist pane-alist)))))))))))
 
 (defun ace-popup-menu--insert-strings (items)
   "Insert ITEMS much like `completion--insert-strings' in current buffer.
@@ -168,7 +169,7 @@ value according to ITEMS."
             (insert (if value str (propertize str 'face 'shadow)))
             (setq column (+ column
                             (* colwidth (ceiling length colwidth)))))))
-      result)))
+      (reverse result))))
 
 (provide 'ace-popup-menu)
 

@@ -33,9 +33,9 @@ global (because it doesn't make any sense to replace behavior of
 
 ----
 
-You can use the enhanced menu directly via `ace-popup-menu-mode` too. To use
-it you don't need to enable the minor mode. See documentation of the
-function for detailed information.
+You can use the enhanced menu directly via `ace-popup-menu` too. To use it
+you don't need to enable the minor mode. See documentation of the function
+for detailed information.
 
 ## Customization
 

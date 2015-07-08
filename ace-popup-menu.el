@@ -103,6 +103,7 @@ and he is done."
        ;; list of keymaps. Support for this representation of MENU will be
        ;; added on request later.
        (with-current-buffer buffer
+         (setq cursor-type nil)
          (cl-destructuring-bind (title . panes) menu
            (insert (propertize title 'face 'font-lock-function-name-face)
                    "\n\n")

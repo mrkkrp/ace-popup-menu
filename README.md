@@ -3,9 +3,9 @@
 [![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.txt)
 [![Build Status](https://travis-ci.org/mrkkrp/ace-popup-menu.svg?branch=master)](https://travis-ci.org/mrkkrp/ace-popup-menu)
 
-This package allows to replace GUI popup menus (created by `x-popup-menu` by
-default) with little temporary windows (like those in which Dired shows you
-files you want to copy). In these windows menu items are displayed and
+This package allows to replace GUI popup menu (created by `x-popup-menu` by
+default) with little temporary window (like that in which Dired shows you
+files you want to copy). In this window, menu items are displayed and
 labeled with one or two letters. You press a key corresponding to desired
 choice (or <kbd>C-g</kbd>) and you are done.
 
@@ -19,7 +19,7 @@ Download this package and place it somewhere, so Emacs can see it. Then put
 In order to replace standard behavior of `x-popup-menu`, activate
 `ace-popup-menu-mode` in your configuration file, like this:
 
-```
+```emacs-lisp
 (ace-popup-menu-mode 1)
 ```
 
@@ -40,7 +40,7 @@ function for detailed information.
 To save space you may want to remove headers of individual panes in the
 menu (they are not shown in original GUI popup menu at all):
 
-```
+```emacs-lisp
 (setq ace-popup-menu-show-pane-header nil)
 ```
 

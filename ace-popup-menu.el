@@ -61,7 +61,7 @@ even if the mode is disabled."
       (advice-add 'x-popup-menu :override #'ace-popup-menu)
     (advice-remove 'x-popup-menu #'ace-popup-menu)))
 
-(defcustom ace-popup-menu-show-pane-header t
+(defcustom ace-popup-menu-show-pane-header nil
   "Whether to print headers of individual panes in Ace Popup Menu."
   :type 'boolean
   :group 'ace-popup-menu)

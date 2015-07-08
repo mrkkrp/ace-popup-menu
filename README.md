@@ -37,11 +37,11 @@ function for detailed information.
 
 ## Customization
 
-To save space you may want to remove headers of individual panes in the
-menu (they are not shown in original GUI popup menu at all):
+You can ask Ace Popup Menu to show headers of individual panes (they are not
+shown in original GUI popup menu):
 
 ```emacs-lisp
-(setq ace-popup-menu-show-pane-header nil)
+(setq ace-popup-menu-show-pane-header t)
 ```
 
 This variable can be changed via «customize» interface too.

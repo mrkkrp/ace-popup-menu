@@ -1,6 +1,7 @@
 # Ace Popup Menu
 
 [![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.txt)
+[![MELPA](http://melpa.org/packages/ace-popup-menu-badge.svg)](http://melpa.org/#/ace-popup-menu)
 [![Build Status](https://travis-ci.org/mrkkrp/ace-popup-menu.svg?branch=master)](https://travis-ci.org/mrkkrp/ace-popup-menu)
 
 ![Ace Popup Menu](https://raw.githubusercontent.com/mrkkrp/ace-popup-menu/gh-pages/ace-popup-menu.png)
@@ -16,6 +17,9 @@ choice (or <kbd>C-g</kbd>) and you are done.
 Download this package and place it somewhere, so Emacs can see it. Then put
 `(require 'ace-popup-menu)` into your configuration file. Done!
 
+It's available via MELPA, so you can just <kbd>M-x package-install RET
+ace-popup-menu RET</kbd>.
+
 ## Usage
 
 In order to replace standard behavior of `x-popup-menu`, activate
@@ -28,7 +32,7 @@ In order to replace standard behavior of `x-popup-menu`, activate
 You can toggle/activate it either interactively or via Lisp, the mode
 follows all usual Emacs Lisp conventions for minor modes, except it's always
 global (because it doesn't make any sense to replace behavior of
-`x-popup-menu` only for in some specific buffer). See documentation for
+`x-popup-menu` only in some specific buffer). See documentation for
 `ace-popup-menu-mode` for more information.
 
 ----

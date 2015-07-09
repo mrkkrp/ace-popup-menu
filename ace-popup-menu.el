@@ -144,8 +144,6 @@ value according to ITEMS."
                          (max 1 (/ (length strings) 2))))
            (colwidth (/ wwidth columns))
            (column 0)
-           (rows (/ (length strings) columns))
-           (row 0)
            (first t)
            laststring
            result)

@@ -82,6 +82,7 @@ and he is done."
           (first-pane t))
       (with-current-buffer buffer
         (with-current-buffer-window
+         ;; buffer or name
          buffer
          ;; action (for `display-buffer')
          (cons 'display-buffer-below-selected
@@ -94,8 +95,8 @@ and he is done."
                  (cdr
                   (assq
                    (avy--with-avy-keys ace-popup-menu
-                                       (avy--process (mapcar #'car menu-item-alist)
-                                                     #'avy--overlay-pre))
+                     (avy--process (mapcar #'car menu-item-alist)
+                                   #'avy--overlay-pre))
                    menu-item-alist))
                (when (window-live-p window)
                  (quit-restore-window window 'kill)))))

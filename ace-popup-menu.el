@@ -80,29 +80,28 @@ and he is done."
     (let ((buffer (get-buffer-create "*Ace Popup Menu*"))
           menu-item-alist
           (first-pane t))
-      (with-displayed-buffer-window
-       ;; buffer or name
-       buffer
-       ;; action (for `display-buffer')
-       (cons 'display-buffer-below-selected
-             '((window-height . fit-window-to-buffer)
-               (preserve-size . (nil . t))))
-       ;; quit-function
-       (lambda (window _value)
-         (with-selected-window window
-           (unwind-protect
-               (cdr
-                (assq
-                 (avy--with-avy-keys ace-popup-menu
-                   (avy--process (mapcar #'car menu-item-alist)
-                                 #'avy--overlay-pre))
-                 menu-item-alist))
-             (when (window-live-p window)
-               (quit-restore-window window 'kill)))))
-       ;; Here we generate the menu. Currently MENU cannot be a keymap or
-       ;; list of keymaps. Support for this representation of MENU will be
-       ;; added on request later.
-       (with-current-buffer buffer
+      (with-current-buffer buffer
+        (with-current-buffer-window
+         buffer
+         ;; action (for `display-buffer')
+         (cons 'display-buffer-below-selected
+               '((window-height . fit-window-to-buffer)
+                 (preserve-size . (nil . t))))
+         ;; quit-function
+         (lambda (window _value)
+           (with-selected-window window
+             (unwind-protect
+                 (cdr
+                  (assq
+                   (avy--with-avy-keys ace-popup-menu
+                                       (avy--process (mapcar #'car menu-item-alist)
+                                                     #'avy--overlay-pre))
+                   menu-item-alist))
+               (when (window-live-p window)
+                 (quit-restore-window window 'kill)))))
+         ;; Here we generate the menu. Currently MENU cannot be a keymap or
+         ;; list of keymaps. Support for this representation of MENU will be
+         ;; added on request later.
          (setq cursor-type nil)
          (cl-destructuring-bind (title . panes) menu
            (insert (propertize title 'face 'font-lock-function-name-face)

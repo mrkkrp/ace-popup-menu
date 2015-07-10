@@ -3,7 +3,7 @@
 ;; Copyright © 2015 Mark Karpov <markkarpov@openmailbox.org>
 ;;
 ;; Author: Mark Karpov <markkarpov@openmailbox.org>
-;; URL: https://github.com/ace-popup-menu
+;; URL: https://github.com/mrkkrp/ace-popup-menu
 ;; Version: 0.1.0
 ;; Package-Requires: ((emacs "24.4") (cl-lib "0.5") (avy "0.2.0"))
 ;; Keywords: convenience, popup, menu

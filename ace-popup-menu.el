@@ -39,7 +39,7 @@
 (defgroup ace-popup-menu nil
   "Replace GUI popup menu with something more efficient."
   :group 'convenience
-  :prefix "ace-popup-menu")
+  :prefix "ace-popup-menu-")
 
 ;;;###autoload
 (define-minor-mode ace-popup-menu-mode
@@ -56,15 +56,13 @@ interface to select an option from a list. Emacs Lisp code can
 also use `ace-popup-menu' directly, in this case it will work OK
 even if the mode is disabled."
   :global t
-  :group 'ace-popup-menu
   (if ace-popup-menu-mode
       (advice-add 'x-popup-menu :override #'ace-popup-menu)
     (advice-remove 'x-popup-menu #'ace-popup-menu)))
 
 (defcustom ace-popup-menu-show-pane-header nil
   "Whether to print headers of individual panes in Ace Popup Menu."
-  :type 'boolean
-  :group 'ace-popup-menu)
+  :type 'boolean)
 
 ;;;###autoload
 (defun ace-popup-menu (position menu)

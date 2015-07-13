@@ -46,7 +46,7 @@
   "Toggle ace-popup-menu-mode minor mode.
 With a prefix argument ARG, enable ace-popup-menu mode if ARG is
 positive, and disable it otherwise.  If called from Lisp, enable
-the mode if ARG is omitted or nil, and toggle it if ARG is
+the mode if ARG is omitted or NIL, and toggle it if ARG is
 `toggle'.
 
 This minor mode is global. When it's active any call to

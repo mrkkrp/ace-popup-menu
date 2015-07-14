@@ -39,6 +39,7 @@
 (defgroup ace-popup-menu nil
   "Replace GUI popup menu with something more efficient."
   :group 'convenience
+  :tag "Ace Popup Menu"
   :prefix "ace-popup-menu-")
 
 ;;;###autoload
@@ -62,6 +63,7 @@ even if the mode is disabled."
 
 (defcustom ace-popup-menu-show-pane-header nil
   "Whether to print headers of individual panes in Ace Popup Menu."
+  :tag "Show Pane Header"
   :type 'boolean)
 
 ;;;###autoload

@@ -45,6 +45,7 @@
 ;;;###autoload
 (define-minor-mode ace-popup-menu-mode
   "Toggle ace-popup-menu-mode minor mode.
+
 With a prefix argument ARG, enable ace-popup-menu mode if ARG is
 positive, and disable it otherwise.  If called from Lisp, enable
 the mode if ARG is omitted or NIL, and toggle it if ARG is
@@ -69,6 +70,7 @@ even if the mode is disabled."
 ;;;###autoload
 (defun ace-popup-menu (position menu)
   "Pop up menu in a temporary window and return user's selection.
+
 Argument POSITION is taken for compatibility and ignored unless
 it's NIL, in this case this function has no effect.  For meaning
 of MENU argument see description of `x-popup-menu'.

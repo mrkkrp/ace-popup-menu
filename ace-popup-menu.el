@@ -38,9 +38,10 @@
 
 (defgroup ace-popup-menu nil
   "Replace GUI popup menu with something more efficient."
-  :group 'convenience
-  :tag "Ace Popup Menu"
-  :prefix "ace-popup-menu-")
+  :group  'convenience
+  :tag    "Ace Popup Menu"
+  :prefix "ace-popup-menu-"
+  :link   '(url-link :tag "GitHub" "https://github.com/mrkkrp/ace-popup-menu"))
 
 ;;;###autoload
 (define-minor-mode ace-popup-menu-mode

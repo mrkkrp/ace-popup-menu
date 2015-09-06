@@ -43,6 +43,18 @@
   :prefix "ace-popup-menu-"
   :link   '(url-link :tag "GitHub" "https://github.com/mrkkrp/ace-popup-menu"))
 
+(defface ace-popup-menu-title
+  '((t (:inherit font-lock-function-name-face)))
+  "Face used to print title of entire menu.")
+
+(defface ace-popup-menu-pane-header
+  '((t (:inherit underline)))
+  "Face used to print pane headers.")
+
+(defface ace-popup-menu-inactive
+  '((t (:inherit shadow)))
+  "Face used to print inactive menu items.")
+
 ;;;###autoload
 (define-minor-mode ace-popup-menu-mode
   "Toggle ace-popup-menu-mode minor mode.
@@ -108,7 +120,7 @@ and he is done."
          ;; added on request later.
          (setq cursor-type nil)
          (cl-destructuring-bind (title . panes) menu
-           (insert (propertize title 'face 'font-lock-function-name-face)
+           (insert (propertize title 'face 'ace-popup-menu-title)
                    "\n\n")
            (dolist (pane panes)
              (cl-destructuring-bind (title . items) pane
@@ -116,7 +128,7 @@ and he is done."
                    (setq first-pane nil)
                  (insert "\n\n"))
                (when ace-popup-menu-show-pane-header
-                 (insert (propertize title 'face 'underline)
+                 (insert (propertize title 'face 'ace-popup-menu-pane-header)
                          "\n\n"))
                (let ((pane-alist (ace-popup-menu--insert-strings items)))
                  (if menu-item-alist
@@ -167,7 +179,9 @@ value according to ITEMS."
             (setq first (zerop length))
             (when value
               (push (cons (point) value) result))
-            (insert (if value str (propertize str 'face 'shadow)))
+            (insert (if value
+                        str
+                      (propertize str 'face 'ace-popup-menu-inactive)))
             (setq column (+ column
                             (* colwidth (ceiling length colwidth)))))))
       (reverse result))))

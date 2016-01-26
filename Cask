@@ -4,4 +4,4 @@
 (package-file "ace-popup-menu.el")
 
 (development
- (depends-on "avy"))
+ (depends-on "avy-menu"))

@@ -50,7 +50,11 @@ shown in original GUI popup menu):
 (setq ace-popup-menu-show-pane-header t)
 ```
 
-This variable can be changed via «customize» interface too.
+This variable can be changed via “customize” interface too.
+
+This package is built on top of
+[`avy-menu`](https://github.com/mrkkrp/avy-menu), see its customization
+settings if you wish to change appearance of the menu itself.
 
 ## Limitations
 

@@ -1,4 +1,4 @@
-;;; ace-popup-menu.el --- Replace GUI popup menu in Emacs with something more efficient -*- lexical-binding: t; -*-
+;;; ace-popup-menu.el --- Replace GUI popup menu with something more efficient -*- lexical-binding: t; -*-
 ;;
 ;; Copyright © 2015–2016 Mark Karpov <markkarpov@openmailbox.org>
 ;;

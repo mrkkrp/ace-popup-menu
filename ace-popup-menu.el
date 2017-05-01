@@ -25,11 +25,12 @@
 
 ;;; Commentary:
 
-;; This package allows to replace GUI popup menu (created by `x-popup-menu'
-;; by default) with little temporary window (like that in which Dired shows
-;; you files you want to copy).  In this window, menu items are displayed
-;; and labeled with one or two letters.  You press a key corresponding to
-;; desired choice (or C-g) and you are done.
+;; This package allows to replace the GUI popup menu (created by
+;; `x-popup-menu' by default) with a little temporary window (like that in
+;; which Dired shows you files you want to copy).  In this window, menu
+;; items are displayed and labeled with one or two letters.  You press a key
+;; corresponding to desired choice (or C-g if you wish to cancel the
+;; operation) and you are done.
 
 ;;; Code:
 
@@ -52,7 +53,7 @@
 (define-minor-mode ace-popup-menu-mode
   "Toggle `ace-popup-menu-mode' minor mode.
 
-With a prefix argument ARG, enable `ace-popup-menu mode' if ARG
+With a prefix argument ARG, enable `ace-popup-menu-mode' if ARG
 is positive, and disable it otherwise.  If called from Lisp,
 enable the mode if ARG is omitted or NIL, and toggle it if ARG is
 `toggle'.
@@ -70,15 +71,15 @@ even if the mode is disabled."
 
 ;;;###autoload
 (defun ace-popup-menu (position menu)
-  "Pop up menu in a temporary window and return user's selection.
+  "Pop up a menu in a temporary window and return user's selection.
 
-Argument POSITION is taken for compatibility and ignored unless
-it's NIL, in this case this function has no effect.  For meaning
-of MENU argument see description of `x-popup-menu'.
+The argument POSITION is taken for compatibility and ignored
+unless it's NIL, in this case this function has no effect.  For
+meaning of MENU argument see description of `x-popup-menu'.
 
 Every selectable item in the menu is labeled with a letter (or
 two).  User can press letter corresponding to desired menu item
-and he is done."
+and he/she is done."
   (when position
     (avy-menu "*ace-popup-menu*"
               menu

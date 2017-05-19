@@ -30,10 +30,10 @@ In order to replace the standard behavior of `x-popup-menu`, activate
 (ace-popup-menu-mode 1)
 ```
 
-You can toggle/activate it either interactively or via Emacs Lisp, the mode
+You can toggle/activate it either interactively or via Lisp. The mode
 follows all usual Emacs Lisp conventions for minor modes, except it's always
 global (because it doesn't make any sense to replace behavior of
-`x-popup-menu` only in some specific buffer). See documentation for
+`x-popup-menu` only in a specific buffer). See the documentation for
 `ace-popup-menu-mode` for more information.
 
 You can use the enhanced menu directly via `ace-popup-menu` too. To use it
@@ -49,7 +49,7 @@ shown in the original GUI popup menu):
 (setq ace-popup-menu-show-pane-header t)
 ```
 
-This variable can be changed via “customize” interface too.
+This variable can be changed via the “customize” interface as well.
 
 This package is built on top
 of [`avy-menu`](https://github.com/mrkkrp/avy-menu), see its customization
@@ -59,11 +59,11 @@ settings if you wish to change appearance of the menu itself.
 
 Here is something you may want to know:
 
-* The original `x-popup-menu` can take `menu` argument in form of a keymap
-  or list of keymaps. This is currently not supported. If you encounter a
-  situation when this breaks something,
+* The original `x-popup-menu` can take `menu` argument in the form of a
+  keymap or list of keymaps. This is currently not supported. If you run
+  into a situation when this breaks something,
   please [open an issue](https://github.com/mrkkrp/ace-popup-menu/issues).
-  Describe how to reproduce your problem and I'll fix it.
+  Describe how to reproduce your problem and I'll try to fix it.
 
 * Some packages, such as `flyspell`, may test if they work under X-window
   system and refuse to call `x-popup-menu` if they think it's unavailable.
@@ -76,6 +76,6 @@ Here is something you may want to know:
 
 ## License
 
-Copyright © 2015—2017 Mark Karpov
+Copyright © 2015–2017 Mark Karpov
 
 Distributed under GNU GPL, version 3.

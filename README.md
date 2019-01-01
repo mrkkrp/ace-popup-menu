@@ -110,6 +110,6 @@ Here is something you may want to know:
 
 ## License
 
-Copyright © 2015–2018 Mark Karpov
+Copyright © 2015–2019 Mark Karpov
 
 Distributed under GNU GPL, version 3.

@@ -1,6 +1,6 @@
 ;;; ace-popup-menu.el --- Replace GUI popup menu with something more efficient -*- lexical-binding: t; -*-
 ;;
-;; Copyright © 2015–2018 Mark Karpov <markkarpov92@gmail.com>
+;; Copyright © 2015–2019 Mark Karpov <markkarpov92@gmail.com>
 ;;
 ;; Author: Mark Karpov <markkarpov92@gmail.com>
 ;; URL: https://github.com/mrkkrp/ace-popup-menu

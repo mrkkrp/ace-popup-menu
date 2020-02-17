@@ -2,7 +2,7 @@
 
 [![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.txt)
 [![MELPA](https://melpa.org/packages/ace-popup-menu-badge.svg)](https://melpa.org/#/ace-popup-menu)
-[![Build Status](https://travis-ci.org/mrkkrp/ace-popup-menu.svg?branch=master)](https://travis-ci.org/mrkkrp/ace-popup-menu)
+[![CircleCI](https://circleci.com/gh/mrkkrp/ace-popup-menu/tree/master.svg?style=svg)](https://circleci.com/gh/mrkkrp/ace-popup-menu/tree/master)
 
 ![Ace Popup Menu](https://raw.githubusercontent.com/mrkkrp/ace-popup-menu/gh-pages/ace-popup-menu.png)
 

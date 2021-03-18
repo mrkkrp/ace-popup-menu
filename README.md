@@ -6,20 +6,22 @@
 
 ![Ace Popup Menu](https://raw.githubusercontent.com/mrkkrp/ace-popup-menu/gh-pages/ace-popup-menu.png)
 
-This package allows to replace the GUI popup menu (created by `x-popup-menu`
-by default) with a little temporary window (like the one in which Dired
-shows you files you want to copy). In this window, menu items are displayed
-and labeled with one or two letters. You press a key corresponding to
-desired choice (or <kbd>C-g</kbd> if you wish to cancel the operation) and
-you are done.
+This package allows its users to replace the GUI popup menu (created by
+`x-popup-menu` by default) with a little textual window. In this window,
+menu items are displayed and labeled with one or two letters.
 
 ## Installation
 
-Download this package and place it somewhere, so Emacs can see it. Then put
-`(require 'ace-popup-menu)` into your configuration file. Done!
+The package is available via MELPA, so you can just type `M-x
+package-install RET ace-popup-menu RET`.
 
-It's available via MELPA, so you can just <kbd>M-x package-install RET
-ace-popup-menu RET</kbd>.
+If you would like to install the package manually, download or clone it and
+put on Emacs' `load-path`. Then you can require it in your init file like
+this:
+
+```emacs-lisp
+(require 'ace-popup-menu)
+```
 
 ## Usage
 
@@ -30,13 +32,12 @@ In order to replace the standard behavior of `x-popup-menu`, activate
 (ace-popup-menu-mode 1)
 ```
 
-You can toggle/activate it either interactively or via Lisp. The mode
+You can toggle/activate it either interactively or programmaticaly. The mode
 follows all usual Emacs Lisp conventions for minor modes, except it's always
-global (because it doesn't make any sense to replace behavior of
-`x-popup-menu` only in a specific buffer). See the documentation for
-`ace-popup-menu-mode` for more information.
+global. See the documentation for `ace-popup-menu-mode` for more
+information.
 
-You can use the enhanced menu directly via `ace-popup-menu` too. To use it
+You can use the enhanced menu directly via `ace-popup-menu`, too. To use it
 you don't need to enable the minor mode. See documentation of the function
 for detailed information.
 
@@ -49,14 +50,14 @@ personally use the following function for quick correction of misspellings:
 (defun mk-flyspell-correct-previous (&optional words)
   "Correct word before point, reach distant words.
 
-WORDS words at maximum are traversed backward until misspelled
-word is found.  If it's not found, give up.  If argument WORDS is
-not specified, traverse 12 words by default.
+WORDS words at maximum are traversed backward until a misspelled
+word is found.  If the argument WORDS is not specified, traverse
+12 words by default.
 
-Return T if misspelled word is found and NIL otherwise.  Never
-move point."
+Return T if a misspelled word is found and NIL otherwise.  Never
+move the point."
   (interactive "P")
-  (let* ((Δ (- (point-max) (point)))
+  (let* ((delta (- (point-max) (point)))
          (counter (string-to-number (or words "12")))
          (result
           (catch 'result
@@ -68,7 +69,7 @@ move point."
               (backward-word 1)
               (setq counter (1- counter))
               nil))))
-    (goto-char (- (point-max) Δ))
+    (goto-char (- (point-max) delta))
     result))
 ```
 
@@ -83,10 +84,10 @@ shown in the original GUI popup menu):
 (setq ace-popup-menu-show-pane-header t)
 ```
 
-This variable can be changed via the “customize” interface as well.
+This variable can be changed via the customization interface as well.
 
-This package is built on top
-of [`avy-menu`](https://github.com/mrkkrp/avy-menu), see its customization
+This package is built on top of
+[`avy-menu`](https://github.com/mrkkrp/avy-menu), see its customization
 settings if you wish to change appearance of the menu itself.
 
 ## Limitations
@@ -94,10 +95,10 @@ settings if you wish to change appearance of the menu itself.
 Here is something you may want to know:
 
 * The original `x-popup-menu` can take `menu` argument in the form of a
-  keymap or list of keymaps. This is currently not supported. If you run
-  into a situation when this breaks something,
-  please [open an issue](https://github.com/mrkkrp/ace-popup-menu/issues).
-  Describe how to reproduce your problem and I'll try to fix it.
+  keymap or a list of keymaps. This is currently not supported. If you run
+  into a situation when this breaks something, please [open an
+  issue](https://github.com/mrkkrp/ace-popup-menu/issues). Describe how to
+  reproduce your problem and I'll try to fix it.
 
 * Some packages, such as `flyspell`, may test if they work under X-window
   system and refuse to call `x-popup-menu` if they think it's unavailable.

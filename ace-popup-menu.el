@@ -26,11 +26,8 @@
 ;;; Commentary:
 
 ;; This package allows to replace the GUI popup menu (created by
-;; `x-popup-menu' by default) with a little temporary window (like that in
-;; which Dired shows you files you want to copy).  In this window, menu
-;; items are displayed and labeled with one or two letters.  You press a key
-;; corresponding to desired choice (or C-g if you wish to cancel the
-;; operation) and you are done.
+;; `x-popup-menu' by default) with a little textual window.  In this window,
+;; menu items are displayed and labeled with one or two letters.
 
 ;;; Code:
 
@@ -40,13 +37,13 @@
 (defgroup ace-popup-menu nil
   "Replace GUI popup menu with something more efficient."
   :group  'convenience
-  :tag    "Ace Popup Menu"
+  :tag    "Ace popup menu"
   :prefix "ace-popup-menu-"
   :link   '(url-link :tag "GitHub" "https://github.com/mrkkrp/ace-popup-menu"))
 
 (defcustom ace-popup-menu-show-pane-header nil
   "Whether to print headers of individual panes in Ace Popup Menu."
-  :tag "Show Pane Header"
+  :tag "Show pane header"
   :type 'boolean)
 
 ;;;###autoload
@@ -59,11 +56,10 @@ enable the mode if ARG is omitted or NIL, and toggle it if ARG is
 `toggle'.
 
 This minor mode is global. When it's active any call to
-`x-popup-menu' will result in call of `ace-popup-menu'
-instead. This function in turn implements a more efficient
+`x-popup-menu' will result in a call of `ace-popup-menu'
+instead. That function in turn implements a more efficient
 interface to select an option from a list. Emacs Lisp code can
-also use `ace-popup-menu' directly, in this case it will work OK
-even if the mode is disabled."
+also use `ace-popup-menu' directly."
   :global t
   (if ace-popup-menu-mode
       (advice-add 'x-popup-menu :override #'ace-popup-menu)
@@ -74,12 +70,9 @@ even if the mode is disabled."
   "Pop up a menu in a temporary window and return user's selection.
 
 Argument POSITION is taken for compatibility and ignored unless
-it's NIL, in which case this function has no effect.  For meaning
-of MENU argument see documentation for `x-popup-menu'.
-
-Every selectable item in the menu is labeled with a letter (or
-two).  User can press a key corresponding to desired menu item
-and he/she is done."
+it's NIL, in which case this function has no effect.  To
+understand the format of the MENU argument, see documentation for
+`x-popup-menu'."
   (when position
     (avy-menu "*ace-popup-menu*"
               menu

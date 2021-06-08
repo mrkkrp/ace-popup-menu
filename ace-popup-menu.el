@@ -62,21 +62,24 @@ interface to select an option from a list. Emacs Lisp code can
 also use `ace-popup-menu' directly."
   :global t
   (if ace-popup-menu-mode
-      (advice-add 'x-popup-menu :override #'ace-popup-menu)
+      (advice-add 'x-popup-menu :around #'ace-popup-menu)
     (advice-remove 'x-popup-menu #'ace-popup-menu)))
 
 ;;;###autoload
-(defun ace-popup-menu (position menu)
+(defun ace-popup-menu (orig-fun position menu)
   "Pop up a menu in a temporary window and return user's selection.
 
-Argument POSITION is taken for compatibility and ignored unless
-it's NIL, in which case this function has no effect.  To
-understand the format of the MENU argument, see documentation for
-`x-popup-menu'."
-  (when position
-    (avy-menu "*ace-popup-menu*"
-              menu
-              ace-popup-menu-show-pane-header)))
+If POSITION is nil or MENU is a keymap or list of keymaps, the
+original `x-popup-menu' function is called via ORIG-FUN instead
+of `avy-menu'.  To understand the format of the MENU argument,
+see documentation for `x-popup-menu'."
+  (if (and position
+           (not (keymapp menu))
+           (not (keymapp (car-safe menu))))
+      (avy-menu "*ace-popup-menu*"
+                menu
+                ace-popup-menu-show-pane-header)
+    (funcall orig-fun position menu)))
 
 (provide 'ace-popup-menu)
 

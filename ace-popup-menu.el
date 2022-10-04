@@ -55,10 +55,10 @@ is positive, and disable it otherwise.  If called from Lisp,
 enable the mode if ARG is omitted or NIL, and toggle it if ARG is
 `toggle'.
 
-This minor mode is global. When it's active any call to
+This minor mode is global.  When it's active any call to
 `x-popup-menu' will result in a call of `ace-popup-menu'
-instead. That function in turn implements a more efficient
-interface to select an option from a list. Emacs Lisp code can
+instead.  That function in turn implements a more efficient
+interface to select an option from a list.  Emacs Lisp code can
 also use `ace-popup-menu' directly."
   :global t
   (if ace-popup-menu-mode

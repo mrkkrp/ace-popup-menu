@@ -5,7 +5,7 @@
 ;; Author: Mark Karpov <markkarpov92@gmail.com>
 ;; URL: https://github.com/mrkkrp/ace-popup-menu
 ;; Version: 0.2.1
-;; Package-Requires: ((emacs "24.3") (avy-menu "0.1"))
+;; Package-Requires: ((emacs "24.4") (avy-menu "0.1"))
 ;; Keywords: convenience, popup, menu
 ;;
 ;; This file is not part of GNU Emacs.

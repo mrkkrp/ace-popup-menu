@@ -32,14 +32,14 @@ In order to replace the standard behavior of `x-popup-menu`, activate
 (ace-popup-menu-mode 1)
 ```
 
-You can toggle/activate it either interactively or programmaticaly. The mode
+You can toggle/activate it either interactively or programmatically. The mode
 follows all usual Emacs Lisp conventions for minor modes, except it's always
 global. See the documentation for `ace-popup-menu-mode` for more
 information.
 
 You can use the enhanced menu directly via `ace-popup-menu`, too. To use it
-you don't need to enable the minor mode. See documentation of the function
-for detailed information.
+you don't need to enable the minor mode. See the documentation of the
+function for detailed information.
 
 ## With Flyspell
 
@@ -88,24 +88,25 @@ This variable can be changed via the customization interface as well.
 
 This package is built on top of
 [`avy-menu`](https://github.com/mrkkrp/avy-menu), see its customization
-settings if you wish to change appearance of the menu itself.
+settings if you wish to change the appearance of the menu itself.
 
 ## Limitations
 
 Here is something you may want to know:
 
-* The original `x-popup-menu` can take `menu` argument in the form of a
+* The original `x-popup-menu` can take a `menu` argument in the form of a
   keymap or a list of keymaps. This is currently not supported. If you run
   into a situation when this breaks something, please [open an
   issue](https://github.com/mrkkrp/ace-popup-menu/issues). Describe how to
   reproduce your problem and I'll try to fix it.
 
-* Some packages, such as `flyspell`, may test if they work under X-window
-  system and refuse to call `x-popup-menu` if they think it's unavailable.
-  There is nothing I can do about it, so it may be hard to use Ace Popup
-  Menu in terminal, even though it's perfectly capable of functioning there.
+* Some packages, such as `flyspell`, may test if they work under the X
+  Window System and refuse to call `x-popup-menu` if they think it's
+  unavailable. There is nothing I can do about it, so it may be hard to use
+  Ace Popup Menu in a terminal, even though it's perfectly capable of
+  functioning there.
 
-* Currently only horizontal format of menu items is available. This is
+* Currently only the horizontal format of menu items is available. This is
   because it's much easier to implement. This should not be a problem,
   though.
 

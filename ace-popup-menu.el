@@ -25,7 +25,7 @@
 
 ;;; Commentary:
 
-;; This package allows to replace the GUI popup menu (created by
+;; This package allows one to replace the GUI popup menu (created by
 ;; `x-popup-menu' by default) with a little textual window.  In this window,
 ;; menu items are displayed and labeled with one or two letters.
 
@@ -72,7 +72,7 @@ also use `ace-popup-menu' directly."
 If POSITION is nil or MENU is a keymap or list of keymaps, the
 original `x-popup-menu' function is called via ORIG-FUN instead
 of `avy-menu'.  To understand the format of the MENU argument,
-see documentation for `x-popup-menu'."
+see the documentation for `x-popup-menu'."
   (if (and position
            (not (keymapp menu))
            (not (keymapp (car-safe menu))))
